@@ -1,8 +1,5 @@
 import java.util.ArrayList;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-
 /**
  * A class to create a binary tree for decoding Morse Code into English
  * @author Mike Meyers
@@ -10,7 +7,7 @@ import javafx.scene.control.Alert.AlertType;
  *
  */
 public class MorseCodeTree implements LinkedConverterTreeInterface<String>{
-	public TreeNode<String> root;
+	private TreeNode<String> root;
 	
 	public MorseCodeTree() {
 		buildTree();

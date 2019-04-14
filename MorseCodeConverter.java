@@ -29,7 +29,7 @@ public class MorseCodeConverter {
 			readIn += (scanner.nextLine());
 		}
 		
-		//tokens is now populated with each line of the file. Close the scanner
+		//readIn is now populated with each line of the file. Close the scanner
 		scanner.close();
 		
 		return convertToEnglish(readIn);
@@ -51,7 +51,13 @@ public class MorseCodeConverter {
 			return null;
 		}
 		
-		//Convert the single String into tokens
+		//Add whitespace to the string as needed to delineate words and lines
+		code = addWhiteSpace(code);
+		
+		//Remove any double-spaces that would throw off the tokenization
+		code = code.replaceAll("  ", " ");
+		
+		//Split the String into tokens
 		String[] tokens = code.split(" ");
 		
 		//Create separate String to hold the output
@@ -92,14 +98,17 @@ public class MorseCodeConverter {
 	public static String printTree() {
 		ArrayList<String> list = new ArrayList<>();
 		
+		//Convert the tree to an ArrayList<String>
 		list = tree.toArrayList();
 		
 		String listString = "";
 		
+		//Add each element of the list to the return String
 		for(String str : list) {
 			listString += str + " ";
 		}
 		
+		//Return the final string
 		return listString.trim();
 	}
 	
@@ -110,11 +119,10 @@ public class MorseCodeConverter {
 	 * @return true if the code is valid, and false otherwise
 	 */
 	private static boolean isValid(String code) {
-		char[] chars = code.toCharArray();
-		
+
 		//Check each character for validity. If any invalid character is found, the code is invalid
-		for (char ch : chars) {
-			switch (ch) {
+		for (int i = 0; i < code.length(); i++) {
+			switch (code.charAt(i)) {
 				case '.' : case '-' : case '\n' : case ' ' : case '/' : continue;
 				default:
 					return false;
@@ -122,6 +130,50 @@ public class MorseCodeConverter {
 		}	
 			//If no invalid characters are found, return true
 			return true;
+	}
+	
+	/**
+	 * Add whitespace around delineating backslashes or newlines
+	 * @param s the String to be manipulated
+	 * @return the String with additional whitespace added
+	 */
+	private static String addWhiteSpace(String s) {
+				
+		boolean done = false;
+		
+		while(done == false) {
+			done = true;
+			
+			for (int i = 1; i < s.length()-1; i++) {
+				if (s.charAt(i) == '/' || s.charAt(i) == '\n') {
+					//Check for a space before the character
+					if (s.charAt(i-1) != ' ') {
+						done = false;
+						
+						//Convert the String to a StringBuilder and insert a space before the character
+						StringBuilder sb = new StringBuilder(s);
+						sb.insert(i, ' ');
+						s = sb.toString();
+						
+						//Decrement i to reflect the added character
+						i--;
+					}
+					//Check for a space after the character
+					else if (s.charAt(i+1) != ' ') {
+						done = false;
+						//Convert the String to a StringBuilder and insert a space after the character
+						StringBuilder sb = new StringBuilder(s);
+						sb.insert(i+1,  ' ');
+						s = sb.toString();
+						
+						//Decrement i to reflect the added character
+						i--;
+					}
+				}
+			}
+		}
+		//Return the altered String
+		return s;
 	}
 
 }
