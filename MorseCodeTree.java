@@ -1,5 +1,8 @@
 import java.util.ArrayList;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+
 /**
  * A class to create a binary tree for decoding Morse Code into English
  * @author Mike Meyers
@@ -15,7 +18,7 @@ public class MorseCodeTree implements LinkedConverterTreeInterface<String>{
 	
 	@Override
 	public void buildTree() {
-		root = new TreeNode<String>();
+		root = new TreeNode<String>("");
 		addNode(root, ".", "e");
 		addNode(root, "-", "t");
 		addNode(root, "..", "i");
@@ -69,10 +72,10 @@ public class MorseCodeTree implements LinkedConverterTreeInterface<String>{
 		else {
 			switch(code.charAt(0)) {
 				case '-' :
-					addNode(root.getRight(), code.substring(1, code.length()), letter);
+					addNode(root.getRight(), code.substring(1), letter);
 					break;
 				case '.' :
-					addNode(root.getLeft(), code.substring(1, code.length()-1), letter);
+					addNode(root.getLeft(), code.substring(1), letter);
 					break;
 				default :
 					//if the character is neither a dot nor a dash, throw Exception
@@ -94,21 +97,56 @@ public class MorseCodeTree implements LinkedConverterTreeInterface<String>{
 		throw new UnsupportedOperationException("Operation not supported");
 	}
 	
+	/**
+	 * Fetch the letter associated with a given string of Morse code
+	 * @param code the code to be searched for within the tree
+	 * @return the letter associated with the code
+	 */
 	@Override
 	public String fetch(String code){
-		//TODO
-		try {
-			throw new NoSuchNodeException();
-		} catch (NoSuchNodeException e) {
-			// TODO Auto-generated catch block
-			e.getMessage();
-		}
-		return null;
+		
+		//Call fetchNode to traverse the tree to find the indicated code
+		return fetchNode(root, code);
 	}
 	
 	@Override
 	public String fetchNode(TreeNode<String> root, String code) {
-		//TODO
+		TreeNode<String> returnNode = this.root;
+		
+		if(code.length() == 1) {
+			switch(code) {
+				case "-" : 
+					returnNode = root.getRight();
+					return returnNode.getData();
+				case "." :
+					returnNode = root.getLeft();
+					return returnNode.getData();
+				default:
+					//if the character is neither a dot nor a dash, throw Exception
+					try {
+						throw new Exception();
+					} catch (Exception e) {
+						e.printStackTrace(); //Should be unreachable if isValid() did its job
+					}
+			}//end switch
+		}
+		else {
+			switch(code.charAt(0)) {
+				case '-' :
+					return fetchNode(root.getRight(), code.substring(1));
+				case '.' :
+					return fetchNode(root.getLeft(), code.substring(1));
+				default:
+					//if the character is neither a dot nor a dash, throw Exception
+					try {
+						throw new Exception();
+					} catch (Exception e) {
+						e.printStackTrace(); //Should be unreachable if isValid() did its job
+					}
+			}//end switch
+		}
+		
+		//This code should not be reached
 		return null;
 	}
 	
@@ -121,10 +159,20 @@ public class MorseCodeTree implements LinkedConverterTreeInterface<String>{
 		return root;
 	}
 	
+	/**
+	 * Add a node to the tree without an indicated root node.
+	 * Method starts with the tree root and goes from there
+	 * @param code the code to be added
+	 * @param letter the letter to be added
+	 */
 	@Override
 	public MorseCodeTree insert (String code, String letter) {
-		//TODO
-		return null;
+
+		//add the node to the tree
+		addNode(root, code, letter);
+		
+		//return this tree object with the node added
+		return this;
 	}
 
 	/**
@@ -135,7 +183,14 @@ public class MorseCodeTree implements LinkedConverterTreeInterface<String>{
 	 */
 	@Override
 	public void LNRoutputTraversal(TreeNode<String> root, ArrayList<String> list) {
-		//TODO
+
+		if (root == null) return;
+		
+		else {
+			LNRoutputTraversal(root.getLeft(), list);
+			list.add(root.getData()); //If condition prevents adding empty tree root data to list
+			LNRoutputTraversal(root.getRight(), list);	
+		}
 	}
 	
 	/**
@@ -164,27 +219,18 @@ public class MorseCodeTree implements LinkedConverterTreeInterface<String>{
 	 */
 	@Override
 	public ArrayList<String> toArrayList() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		//Create empty ArrayList
+		ArrayList<String> list = new ArrayList<>();
+		
+		//Pass ArrayList to traversal method
+		LNRoutputTraversal(root, list);
+		
+		//Return the now-populated list
+		return list;
 	}
 	
-	/**
-	 * Exception thrown when an invalid character is found in 
-	 * an input string
-	 * @author Mike Meyers
-	 * @version 1.0
-	 *
-	 */
-	@SuppressWarnings("serial")
-	class NoSuchNodeException extends Exception {
-		
-		public NoSuchNodeException() {
-			super("Invalid code found in input");
-		}
-		
-		public NoSuchNodeException(String e) {
-			super(e);
-		}
-	}
+
 	
+
 }
