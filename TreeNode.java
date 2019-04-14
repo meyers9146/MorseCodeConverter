@@ -81,13 +81,4 @@ public class TreeNode<T> {
 	public T getData() {
 		return data;
 	}
-	
-	/**
-	 * Determine if this node is a leaf of the tree
-	 * @return true if this node is a leaf, and false otherwise
-	 */
-	public boolean isLeaf() {
-		if (leftNode == null && rightNode == null) return true;
-		else return false;
-	}
 }
