@@ -52,15 +52,17 @@ public class MorseCodeTree implements LinkedConverterTreeInterface<String>{
 		if (code.length() == 1) {
 			switch(code) {
 				case "-" :
+					if (root.getRight() != null) break; //Method will not permit overwrites
 					root.setRight(tempNode);
 					break;
 				case "." :
+					if (root.getLeft() != null) break; //Method will not permit overwrites 
 					root.setLeft(tempNode);
 					break;
 				default:
 					//if the character is neither a dot nor a dash, throw Exception
 					try {
-						throw new Exception("Something went wrong building the tree");
+						throw new Exception("Something went wrong adding a node");
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -227,7 +229,4 @@ public class MorseCodeTree implements LinkedConverterTreeInterface<String>{
 		return list;
 	}
 	
-
-	
-
 }

@@ -21,18 +21,18 @@ public class MorseCodeConverter {
 	 */
 	public static String convertToEnglish(File codeFile) throws FileNotFoundException{
 		
-		//Open file. Create Scanner to read file, and an ArrayList to hold read tokens
+		//Open file. Create Scanner to read file, and a String to hold read characters
 		Scanner scanner = new Scanner(codeFile);
 		String readIn = "";
 		
 		while (scanner.hasNext()) {
-			readIn += (scanner.nextLine());
+			readIn += scanner.nextLine() + "\n";
 		}
 		
 		//readIn is now populated with each line of the file. Close the scanner
 		scanner.close();
 		
-		return convertToEnglish(readIn);
+		return convertToEnglish(readIn.trim());
 		
 	}
 	
