@@ -6,6 +6,14 @@ import java.util.Scanner;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
+/**
+ * A class for converting strings of Morse code into English.
+ * Functions with either Strings or text files
+ * 
+ * @author Michael Meyers
+ * @version 1.0
+ *
+ */
 public class MorseCodeConverter {
 	
 	private static MorseCodeTree tree = new MorseCodeTree();
@@ -18,6 +26,7 @@ public class MorseCodeConverter {
 	 * Convert Morse Code into English
 	 * @param codeFile the code to be converted
 	 * @return an English representation of the argument code
+	 * @throws FileNotFoundException if the file is not found
 	 */
 	public static String convertToEnglish(File codeFile) throws FileNotFoundException{
 		
