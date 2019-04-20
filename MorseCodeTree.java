@@ -175,7 +175,7 @@ public class MorseCodeTree implements LinkedConverterTreeInterface<String>{
 	}
 
 	/**
-	 * The recursive method to put the contents of the linked converter tree in an ArrayList<T> 
+	 * The recursive method to put the contents of the linked converter tree in an ArrayList of type T
 	 * LNR (Inorder)
 	 * @param root the root of the tree for this particular recursive instance
 	 * @param list the ArrayList that will hold the contents of the tree in LNR order

@@ -34,7 +34,7 @@ public class TreeNode<T> {
 	
 	/**
 	 * Create a new TreeNode as a clone of another TreeNode
-	 * @param node
+	 * @param node the node to be cloned
 	 */
 	public TreeNode(TreeNode<T> node) {
 		data = node.getData();
